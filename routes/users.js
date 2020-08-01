@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 
 /* CREATE a new user. */
 router.post('', [
-        check('email', 'Your email is not valid').not().isEmpty(),
+        check('email', 'Email field is required').notEmpty().trim().isEmail().withMessage('Invalid email'),
         check('password', 'Your password must be at least 5 characters').not().isEmpty(),
     ],
     async function (req, res) {
