@@ -16,10 +16,21 @@ router.post('', [
             return res.status(422).jsonp(errors.array());
         }
 
-        const email = req.body.email;
+        const email = req.body.email.toLowerCase();
         const password = req.body.password;
 
+        // Check if user with that email exists already.
+
+
         try {
+            const userExists = await User.findOne({email});
+
+            if (userExists) {
+                res.status(400).json({
+                    message: 'User already exists'
+                });
+            }
+
             let user = new User({
                 email: email,
                 password: bcrypt.hashSync(password, 8),
